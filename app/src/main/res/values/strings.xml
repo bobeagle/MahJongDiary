@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MahJong Diary</string>
+    <string name="action_reset">Clear All</string>
+    <string name="home_view_title">Games</string>
+</resources>
