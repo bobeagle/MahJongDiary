@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/new_game"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.csbob.mahjongdiary.NewGameActivity">
+
+    <!-- players -->
+    <EditText
+        android:id="@+id/input_west"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:ems="5"
+        android:hint="@string/west"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/input_south"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/input_west"
+        android:ems="5"
+        android:hint="@string/south"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/input_north"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/input_south"
+        android:ems="5"
+        android:hint="@string/north"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/input_east"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/input_south"
+        android:layout_centerHorizontal="true"
+        android:ems="5"
+        android:hint="@string/east"
+        android:inputType="textPersonName" />
+
+    <!-- unit pay -->
+    <TextView
+        android:id="@+id/label_base_chip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/input_east"
+        android:layout_marginTop="35dp"
+        android:text="@string/unit_pay"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/input_base_chip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/label_base_chip"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:ems="10"
+        android:inputType="numberDecimal" />
+
+    <!-- top exponent -->
+    <TextView
+        android:id="@+id/label_top_exp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/label_base_chip"
+        android:layout_marginTop="25dp"
+        android:text="@string/top_exp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <SeekBar
+        android:id="@+id/bar_top_exp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/label_top_exp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_toEndOf="@id/label_top_exp"
+        android:layout_toRightOf="@id/label_top_exp" />
+
+    <TextView
+        android:id="@+id/label_bar_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/bar_top_exp"
+        android:layout_alignRight="@id/bar_top_exp"
+        android:layout_alignTop="@id/label_top_exp"
+        android:gravity="center"
+        android:text="0"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <!-- All / Single payer -->
+    <TextView
+        android:id="@+id/label_payer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/label_top_exp"
+        android:layout_marginTop="25dp"
+        android:text="@string/payer"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ToggleButton
+        android:id="@+id/toggle_payer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/label_payer"
+        android:layout_alignLeft="@id/bar_top_exp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignStart="@id/bar_top_exp"
+        android:text="@string/payer_all"
+        android:textOff="@string/payer_all"
+        android:textOn="@string/payer_single" />
+
+</RelativeLayout>
