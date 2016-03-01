@@ -14,10 +14,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.csbob.mahjongdiary.adaptor.GameListAdaptor;
+import com.csbob.mahjongdiary.controller.AppController;
+import com.csbob.mahjongdiary.model.Game;
+import com.csbob.mahjongdiary.model.IntentExtraKey;
 
 public class GameListActivity extends AppCompatActivity {
 
-    private final String[] data = new String[]{"Android", "iPhone"};
+    private ArrayAdapter<Game> adaptor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class GameListActivity extends AppCompatActivity {
         });
 
         final ListView listView = (ListView) findViewById(R.id.game_list);
-        final ArrayAdapter<String> adaptor = new GameListAdaptor(this, data);
+        adaptor = new GameListAdaptor(this);
         listView.setAdapter(adaptor);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -49,9 +52,6 @@ public class GameListActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 Log.i(GameListActivity.class.getName(), "removing " + parent.getItemAtPosition(position));
-                                adaptor.remove((String) parent.getItemAtPosition(position));
-                                adaptor.notifyDataSetChanged();
-                                view.setAlpha(1);
                             }
                         });
             }
@@ -82,6 +82,16 @@ public class GameListActivity extends AppCompatActivity {
 
     public void createNewGame(View view) {
         Intent intent = new Intent(this, NewGameActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            Game newGame = (Game) data.getExtras().getSerializable(IntentExtraKey.RESULT.name());
+            Log.i(this.getLocalClassName(), "Got game from newGameActivity " + newGame);
+            AppController.getInstance().addGame(newGame);
+            adaptor.notifyDataSetChanged();
+        }
     }
 }

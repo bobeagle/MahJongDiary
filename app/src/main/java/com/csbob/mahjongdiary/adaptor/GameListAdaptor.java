@@ -8,25 +8,23 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.csbob.mahjongdiary.R;
+import com.csbob.mahjongdiary.controller.AppController;
+import com.csbob.mahjongdiary.model.Game;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 /**
  * List View Adaptor for home page - list of games
  * Created by yiyang on 29/02/2016.
  */
-public class GameListAdaptor extends ArrayAdapter<String> {
+public class GameListAdaptor extends ArrayAdapter<Game> {
 
     private final Activity context;
-    private final List<String> values;
 
-    public GameListAdaptor(Context context, String[] values) {
-        super(context, -1, values);
+    public GameListAdaptor(Context context) {
+        super(context, -1);
         this.context = (Activity) context;
-        this.values = new ArrayList<>(Arrays.asList(values));
     }
 
     @Override
@@ -42,20 +40,25 @@ public class GameListAdaptor extends ArrayAdapter<String> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.headerView.setText(String.format(Locale.UK, "%d", position));
-        viewHolder.textView.setText(values.get(position));
+        Game game = AppController.getInstance().getGames().get(position);
+
+        String header = String.format(Locale.UK, "%s %s %s %s", game.east, game.south, game.west, game.north);
+        String text = new SimpleDateFormat("yyyy-MM-dd", Locale.UK).format(game.playDate);
+
+        viewHolder.headerView.setText(header);
+        viewHolder.textView.setText(text);
 
         return convertView;
     }
 
     @Override
-    public void remove(String object) {
-        values.remove(object);
+    public int getCount() {
+        return AppController.getInstance().getGames().size();
     }
 
     @Override
-    public int getCount() {
-        return values.size();
+    public Game getItem(int position) {
+        return AppController.getInstance().getGames().get(position);
     }
 
     static class ViewHolder {
