@@ -13,6 +13,7 @@ import android.widget.ToggleButton;
 
 import com.csbob.mahjongdiary.model.Game;
 import com.csbob.mahjongdiary.model.IntentExtraKey;
+import com.csbob.mahjongdiary.model.IntentRequestCode;
 
 import java.math.BigDecimal;
 
@@ -72,7 +73,7 @@ public class NewGameActivity extends AppCompatActivity {
 
             Intent result = new Intent();
             result.putExtra(IntentExtraKey.RESULT.name(), newGame);
-            setResult(1, result);
+            setResult(IntentRequestCode.NEW_GAME.getCode(), result);
             finish();
 
             return true;

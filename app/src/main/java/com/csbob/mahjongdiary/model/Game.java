@@ -22,6 +22,11 @@ public class Game implements Serializable {
     public boolean isSinglePay;
     public Date playDate;
 
+    public BigDecimal eastResult = BigDecimal.ZERO;
+    public BigDecimal westResult = BigDecimal.ZERO;
+    public BigDecimal southResult = BigDecimal.ZERO;
+    public BigDecimal northResult = BigDecimal.ZERO;
+
     public Game(String east, String west, String south, String north, BigDecimal unitPay, int maxExp, boolean isSinglePay) {
         this.east = east;
         this.west = west;

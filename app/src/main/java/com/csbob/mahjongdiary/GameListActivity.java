@@ -17,6 +17,7 @@ import com.csbob.mahjongdiary.adaptor.GameListAdaptor;
 import com.csbob.mahjongdiary.controller.AppController;
 import com.csbob.mahjongdiary.model.Game;
 import com.csbob.mahjongdiary.model.IntentExtraKey;
+import com.csbob.mahjongdiary.model.IntentRequestCode;
 
 public class GameListActivity extends AppCompatActivity {
 
@@ -47,11 +48,17 @@ public class GameListActivity extends AppCompatActivity {
 
                 Log.i(GameListActivity.class.getName(), "onClick at position " + position);
 
-                view.animate().setDuration(1000).alpha(0)
+                view.animate().setDuration(500).alpha(0)
                         .withEndAction(new Runnable() {
                             @Override
                             public void run() {
-                                Log.i(GameListActivity.class.getName(), "removing " + parent.getItemAtPosition(position));
+                                view.setAlpha(1);
+
+                                Game selectedGame = (Game) parent.getItemAtPosition(position);
+                                Log.i(GameListActivity.class.getName(), "editing " + selectedGame);
+                                Intent editGameIntent = new Intent(parent.getContext(), EditGameActivity.class);
+                                editGameIntent.putExtra(IntentExtraKey.PAYLOAD.name(), selectedGame);
+                                startActivityForResult(editGameIntent, IntentRequestCode.EDIT_GAME.getCode());
                             }
                         });
             }
@@ -82,12 +89,12 @@ public class GameListActivity extends AppCompatActivity {
 
     public void createNewGame(View view) {
         Intent intent = new Intent(this, NewGameActivity.class);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, IntentRequestCode.NEW_GAME.getCode());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
+        if (requestCode == IntentRequestCode.NEW_GAME.getCode()) {
             Game newGame = (Game) data.getExtras().getSerializable(IntentExtraKey.RESULT.name());
             Log.i(this.getLocalClassName(), "Got game from newGameActivity " + newGame);
             AppController.getInstance().addGame(newGame);
