@@ -5,11 +5,19 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.csbob.mahjongdiary.adaptor.GameListAdaptor;
 
 public class GameListActivity extends AppCompatActivity {
+
+    private final String[] data = new String[]{"Android", "iPhone"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +32,29 @@ public class GameListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+            }
+        });
+
+        final ListView listView = (ListView) findViewById(R.id.gameList);
+        final ArrayAdapter<String> adaptor = new GameListAdaptor(this, data);
+        listView.setAdapter(adaptor);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> parent, final View view, final int position, long id) {
+
+                Log.i(GameListActivity.class.getName(), "onClick at position " + position);
+
+                view.animate().setDuration(1000).alpha(0)
+                        .withEndAction(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.i(GameListActivity.class.getName(), "removing " + parent.getItemAtPosition(position));
+                                adaptor.remove((String) parent.getItemAtPosition(position));
+                                adaptor.notifyDataSetChanged();
+                                view.setAlpha(1);
+                            }
+                        });
             }
         });
     }
