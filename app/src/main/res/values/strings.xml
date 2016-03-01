@@ -1,5 +1,22 @@
 <resources>
     <string name="app_name">MahJong Diary</string>
+    <string name="game_list_view_title">Games</string>
+    <string name="new_game_view_title">New Game</string>
     <string name="action_reset">Clear All</string>
-    <string name="home_view_title">Games</string>
+    <string name="action_create_new_game">Done</string>
+
+    <!--Text Hints-->
+    <string name="east">East</string>
+    <string name="south">South</string>
+    <string name="west">West</string>
+    <string name="north">North</string>
+
+    <!--Labels-->
+    <string name="players">Players</string>
+    <string name="unit_pay">Unit Pay</string>
+    <string name="top_exp">Max Exponent</string>
+    <string name="payer">Payer</string>
+    <string name="payer_all">All</string>
+    <string name="payer_single">Single</string>
+
 </resources>

@@ -10,13 +10,21 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".GameListActivity"
-            android:label="@string/home_view_title"
+            android:label="@string/game_list_view_title"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".NewGameActivity"
+            android:label="@string/new_game_view_title"
+            android:parentActivityName=".GameListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".GameListActivity" />
         </activity>
     </application>
 
