@@ -20,6 +20,7 @@
     <string name="payer_single">Single</string>
     <string name="edit_game_view_title">Edit Game</string>
     <string name="win">win</string>
+    <string name="loss">loss</string>
     <string name="exp">Exp</string>
 
     <!--Others-->

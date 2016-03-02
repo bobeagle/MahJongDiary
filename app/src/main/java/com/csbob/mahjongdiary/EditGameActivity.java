@@ -2,17 +2,19 @@ package com.csbob.mahjongdiary;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.ScrollingMovementMethod;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.csbob.mahjongdiary.adaptor.ScoreListAdaptor;
+import com.csbob.mahjongdiary.controller.AppController;
 import com.csbob.mahjongdiary.model.Game;
 import com.csbob.mahjongdiary.model.IntentExtraKey;
+import com.csbob.mahjongdiary.model.Score;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -33,16 +35,18 @@ public class EditGameActivity extends AppCompatActivity {
     private TextView northLabel;
 
     private Button saveBtn;
+    private ArrayAdapter<Score> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_game);
 
-        TextView logArea = (TextView) findViewById(R.id.log_area);
-        logArea.setMovementMethod(new ScrollingMovementMethod());
-
-        game = (Game) getIntent().getSerializableExtra(IntentExtraKey.PAYLOAD.name());
+        int position = getIntent().getIntExtra(IntentExtraKey.PAYLOAD.name(), -1);
+        if (position < 0)
+            finish();
+        else
+            game = AppController.getInstance().getGames().get(position);
 
         // set UI values
         winner = (Spinner) findViewById(R.id.spinner_winner);
@@ -61,9 +65,9 @@ public class EditGameActivity extends AppCompatActivity {
         playerList.add(game.south);
         playerList.add(game.north);
 
-        winner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, playerList));
+        winner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, playerList.toArray()));
         playerList.add(getResources().getString(R.string.self));
-        loser.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, playerList));
+        loser.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, playerList.toArray()));
 
         expBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -84,51 +88,36 @@ public class EditGameActivity extends AppCompatActivity {
 
         onExpSelection();
         showResults();
+
+        adapter = new ScoreListAdaptor(this, game);
+        ListView listView = (ListView) findViewById(R.id.score_list);
+        listView.setAdapter(adapter);
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String winnerStr = (String) winner.getSelectedItem();
+                String loserStr = (String) loser.getSelectedItem();
+                int exp = onExpSelection();
+                Score score = new Score(winnerStr, loserStr, exp);
+                game.addScore(score);
+                adapter.notifyDataSetChanged();
+                showResults();
+            }
+        });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit_game, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_done_edit) {
-//            String east = ((EditText) findViewById(R.id.input_east)).getText().toString();
-//            String west = ((EditText) findViewById(R.id.input_west)).getText().toString();
-//            String south = ((EditText) findViewById(R.id.input_south)).getText().toString();
-//            String north = ((EditText) findViewById(R.id.input_north)).getText().toString();
-//            BigDecimal unitPay = new BigDecimal(((EditText) findViewById(R.id.input_base_chip)).getText().toString());
-//            int maxExp = Integer.parseInt(((TextView) findViewById(R.id.label_bar_value)).getText().toString());
-//            boolean isSingle = ((ToggleButton) findViewById(R.id.toggle_payer)).isChecked();
-//
-//            Game newGame = new Game(east.trim(), west.trim(), south.trim(), north.trim(), unitPay, maxExp, isSingle);
-//            Log.i(this.getLocalClassName(), "New game created: +" + newGame);
-//
-//            Intent result = new Intent();
-//            result.putExtra(IntentExtraKey.RESULT.name(), newGame);
-//            setResult(IntentRequestCode.NEW_GAME.getCode(), result);
-            finish();
-
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void onExpSelection() {
+    private int onExpSelection() {
         int exp = game.maxExp * expBar.getProgress() / 100;
         exp = exp > 0 ? exp : 1;
         String expStr = getResources().getString(R.string.exp);
         expLabel.setText(expStr + ": " + exp);
+        return exp;
     }
 
     private void showResults() {
         DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
+        df.setMaximumFractionDigits(4);
         df.setMinimumFractionDigits(0);
         df.setGroupingUsed(true);
 

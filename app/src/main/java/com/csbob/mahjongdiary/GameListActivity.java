@@ -57,7 +57,7 @@ public class GameListActivity extends AppCompatActivity {
                                 Game selectedGame = (Game) parent.getItemAtPosition(position);
                                 Log.i(GameListActivity.class.getName(), "editing " + selectedGame);
                                 Intent editGameIntent = new Intent(parent.getContext(), EditGameActivity.class);
-                                editGameIntent.putExtra(IntentExtraKey.PAYLOAD.name(), selectedGame);
+                                editGameIntent.putExtra(IntentExtraKey.PAYLOAD.name(), position);
                                 startActivityForResult(editGameIntent, IntentRequestCode.EDIT_GAME.getCode());
                             }
                         });

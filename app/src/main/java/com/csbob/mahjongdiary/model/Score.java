@@ -11,4 +11,9 @@ public class Score {
     public String loser;
     public int exp;
 
+    public Score(String winner, String loser, int exp) {
+        this.winner = winner;
+        this.loser = loser;
+        this.exp = exp;
+    }
 }
