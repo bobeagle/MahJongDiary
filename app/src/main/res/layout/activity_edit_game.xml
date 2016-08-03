@@ -43,7 +43,8 @@
         android:id="@+id/linear_layout_exp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <SeekBar
@@ -75,6 +76,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/material_grey_600" />
 
+    <!-- score summary -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
